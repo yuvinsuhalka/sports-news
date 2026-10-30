@@ -22,15 +22,15 @@ export default function App() {
   }, []);
 
   return (
-    <div style={{ backgroundColor: '#121216', color: '#fff', minHeight: '100vh', fontFamily: 'sans-serif' }}>
+    <div style={{ backgroundColor: '#f3f4f6', color: '#1f2937', minHeight: '100vh', fontFamily: 'sans-serif' }}>
       <Header />
       
       <main style={{ padding: '24px', maxWidth: '1200px', margin: '0 auto' }}>
-        <h1 style={{ fontSize: '1.8rem', marginBottom: '8px' }}>SPORTS WIRE — Live Daily Sports News</h1>
-        <p style={{ color: '#a1a1aa', marginBottom: '24px' }}>Auto-refreshing live sports headlines feed.</p>
+        <h1 style={{ fontSize: '2rem', marginBottom: '8px', color: '#111827', fontWeight: 'bold' }}>Sports News</h1>
+        <p style={{ color: '#4b5563', marginBottom: '24px' }}>Live daily sports headlines and updates.</p>
         
         {loading ? (
-          <p style={{ textAlign: 'center', padding: '40px' }}>Loading latest sports news...</p>
+          <p style={{ textAlign: 'center', padding: '40px', color: '#4b5563' }}>Loading latest sports news...</p>
         ) : (
           <div style={{ 
             display: 'grid', 
@@ -41,13 +41,13 @@ export default function App() {
               <div 
                 key={article.id} 
                 style={{
-                  background: '#1e1e24',
+                  background: '#ffffff',
                   borderRadius: '12px',
                   overflow: 'hidden',
-                  border: '1px solid #2e2e38',
+                  border: '1px solid #e5e7eb',
                   display: 'flex',
                   flexDirection: 'column',
-                  boxShadow: '0 4px 6px rgba(0,0,0,0.3)'
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.05)'
                 }}
               >
                 <div style={{ position: 'relative', height: '180px' }}>
@@ -73,15 +73,15 @@ export default function App() {
                 </div>
                 
                 <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#a1a1aa', marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#6b7280', marginBottom: '8px' }}>
                     <span>📍 {article.source}</span>
                     <span>⏱️ {article.publishedAt}</span>
                   </div>
                   
-                  <h3 style={{ fontSize: '1.1rem', color: '#fff', marginBottom: '8px', lineHeight: '1.4' }}>
+                  <h3 style={{ fontSize: '1.1rem', color: '#111827', marginBottom: '8px', lineHeight: '1.4' }}>
                     {article.title}
                   </h3>
-                  <p style={{ fontSize: '0.85rem', color: '#d4d4d8', flexGrow: '1', marginBottom: '16px', lineHeight: '1.4' }}>
+                  <p style={{ fontSize: '0.85rem', color: '#4b5563', flexGrow: '1', marginBottom: '16px', lineHeight: '1.4' }}>
                     {article.description}
                   </p>
                   
