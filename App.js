@@ -22,10 +22,10 @@ export default function App() {
   }, []);
 
   return (
-    <div style={{ backgroundColor: '#f3f4f6', color: '#1f2937', minHeight: '100vh', fontFamily: 'sans-serif' }}>
+    <div style={{ backgroundColor: '#f8fafc', color: '#0f172a', minHeight: '100vh', fontFamily: 'sans-serif' }}>
       <Header />
       
-      <main style={{ padding: '24px', maxWidth: '1200px', margin: '0 auto' }}>
+      <main style={{ padding: '32px 24px', maxWidth: '1200px', margin: '0 auto' }}>
         <h1 style={{ fontSize: '2rem', marginBottom: '8px', color: '#111827', fontWeight: 'bold' }}>Sports News</h1>
         <p style={{ color: '#4b5563', marginBottom: '24px' }}>Live daily sports headlines and updates.</p>
         
