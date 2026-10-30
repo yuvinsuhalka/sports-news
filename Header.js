@@ -1,40 +1,10 @@
-import React, { useEffect, useState } from "react";
-
-function formatDateline() {
-  const now = new Date();
-  const date = now.toLocaleDateString("en-IN", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-  const time = now.toLocaleTimeString("en-IN", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  return `${date} · ${time} IST`;
-}
+import React from 'react';
 
 export default function Header() {
-  const [dateline, setDateline] = useState(formatDateline());
-
-  useEffect(() => {
-    const id = setInterval(() => setDateline(formatDateline()), 30000);
-    return () => clearInterval(id);
-  }, []);
-
   return (
-    <header className="masthead">
-      <div className="masthead-row masthead-eyebrow">
-        <span>JAIPUR SPORTS EDITION</span>
-        <span className="masthead-live">
-          <span className="live-dot" aria-hidden="true" /> LIVE
-        </span>
-      </div>
-      <h1 className="masthead-title">SPORTS WIRE</h1>
-      <div className="masthead-row masthead-dateline">
-        <span>{dateline}</span>
-        <span>VOL. 1 · DAILY SCORELINE</span>
+    <header style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#2563eb' }}>
+        ⚽ Sports News
       </div>
     </header>
   );
