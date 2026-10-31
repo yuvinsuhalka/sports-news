@@ -46,9 +46,9 @@
             grid.innerHTML = '';
 
             try {
-                const res = await fetch('https://saurav.tech/NewsAPI/top-headlines/category/sports/in.json');
-                const data = await res.json();
-                const articles = data.articles || [];
+                const res = await fetch('https://inshortsapi.vercel.app/news?category=sports');
+                const result = await res.json();
+                const articles = result.data || [];
 
                 loading.style.display = 'none';
 
@@ -58,15 +58,13 @@
                 }
 
                 articles.forEach((a, i) => {
-                    if (!a.title || a.title === '[Removed]') return;
-                    
                     const card = document.createElement('div');
                     card.className = 'bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm flex flex-col hover:shadow-md transition';
                     
                     const badgeText = i === 0 ? '🏆 TOP STORY' : '🔥 HOT';
-                    const imageUrl = a.urlToImage || 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&auto=format&fit=crop';
-                    const sourceName = a.source?.name || 'Sports Desk';
-                    const pubTime = a.publishedAt ? new Date(a.publishedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Recently';
+                    const imageUrl = a.imageUrl || 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&auto=format&fit=crop';
+                    const sourceName = a.author || 'Sports Desk';
+                    const pubTime = a.date || 'Recently';
 
                     card.innerHTML = `
                         <div class="relative h-48 bg-gray-200">
@@ -78,15 +76,15 @@
                         <div class="p-5 flex flex-col flex-grow">
                             <div class="flex justify-between text-xs text-gray-500 mb-2">
                                 <span>📍 ${sourceName}</span>
-                                    <span>⏱️ ${pubTime}</span>
+                                <span>⏱️ ${pubTime}</span>
                             </div>
                             <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">
                                 ${a.title}
                             </h3>
                             <p class="text-sm text-gray-600 flex-grow mb-6 leading-relaxed">
-                                ${a.description || 'No description available.'}
+                                ${a.content || a.description || 'No description available.'}
                             </p>
-                            <a href="${a.url}" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-blue-600 text-white rounded-xl font-semibold text-center hover:bg-blue-700 transition">
+                            <a href="${a.readMoreUrl || a.url || '#'}" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-blue-600 text-white rounded-xl font-semibold text-center hover:bg-blue-700 transition">
                                 Read Full Story ➔
                             </a>
                         </div>
