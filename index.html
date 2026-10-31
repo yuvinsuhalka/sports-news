@@ -1,11 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sports News</title>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans min-h-screen flex flex-col">
+    
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center shadow-sm">
+        <div class="text-xl font-bold text-blue-600 flex items-center gap-2">
+            ⚽ Sports News
+        </div>
+        <button onclick="loadNews()" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-700 transition cursor-pointer">
+            🔄 Refresh
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-6xl mx-auto px-6 py-8 w-full">
+        <div class="mb-8">
+            <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Sports News</h1>
+            <p class="text-gray-600">Live daily sports headlines and updates.</p>
+        </div>
+
+        <div id="loading" class="text-center py-20 text-gray-600 text-lg">
+            ⏳ Fetching sports headlines...
+        </div>
+
+        <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 text-center py-4 text-gray-500 text-sm mt-auto">
+        © 2026 Sports News Hub — All Rights Reserved.
+    </footer>
+
+    <script>
+        async function loadNews() {
+            const grid = document.getElementById('news-grid');
+            const loading = document.getElementById('loading');
+            loading.style.display = 'block';
+            grid.innerHTML = '';
+
+            try {
+                const res = await fetch('https://saurav.tech/NewsAPI/top-headlines/category/sports/in.json');
+                const data = await res.json();
+                const articles = data.articles || [];
+
+                loading.style.display = 'none';
+
+                if (articles.length === 0) {
+                    grid.innerHTML = '<p class="text-center col-span-full text-gray-500">No news found.</p>';
+                    return;
+                }
+
+                articles.forEach((a, i) => {
+                    if (!a.title || a.title === '[Removed]') return;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm flex flex-col hover:shadow-md transition';
+                    
+                    const badgeText = i === 0 ? '🏆 TOP STORY' : '🔥 HOT';
+                    const imageUrl = a.urlToImage || 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&auto=format&fit=crop';
+                    const sourceName = a.source?.name || 'Sports Desk';
+                    const pubTime = a.publishedAt ? new Date(a.publishedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Recently';
+
+                    card.innerHTML = `
+                        <div class="relative h-48 bg-gray-200">
+                            <span class="absolute top-3 left-3 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-full shadow">
+                                ${badgeText}
+                            </span>
+                            <img src="${imageUrl}" alt="${a.title}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow">
+                            <div class="flex justify-between text-xs text-gray-500 mb-2">
+                                <span>📍 ${sourceName}</span>
+                                    <span>⏱️ ${pubTime}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">
+                                ${a.title}
+                            </h3>
+                            <p class="text-sm text-gray-600 flex-grow mb-6 leading-relaxed">
+                                ${a.description || 'No description available.'}
+                            </p>
+                            <a href="${a.url}" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-blue-600 text-white rounded-xl font-semibold text-center hover:bg-blue-700 transition">
+                                Read Full Story ➔
+                            </a>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (err) {
+                console.error(err);
+                loading.style.display = 'none';
+                grid.innerHTML = '<p class="text-center col-span-full text-red-500">Failed to load news. Please try refreshing.</p>';
+            }
+        }
+
+        loadNews();
+    </script>
+</body>
 </html>
