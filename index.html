@@ -46,7 +46,7 @@
                 source: "Live Sports Wire",
                 date: "Just now",
                 imageUrl: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=600&auto=format&fit=crop",
-                url: "#"
+                url: ""
             },
             {
                 title: "Major Roster Changes Announced Ahead of Upcoming Season",
@@ -54,7 +54,7 @@
                 source: "Global Arena",
                 date: "15 mins ago",
                 imageUrl: "https://images.unsplash.com/photo-1517649763962-0c623266010b?w=600&auto=format&fit=crop",
-                url: "#"
+                url: ""
             },
             {
                 title: "Championship Highlights: Records Broken in High-Stakes Clash",
@@ -62,7 +62,7 @@
                 source: "Sports Desk",
                 date: "1 hour ago",
                 imageUrl: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&auto=format&fit=crop",
-                url: "#"
+                url: ""
             }
         ];
 
@@ -86,7 +86,7 @@
                             source: a.author || "Inshorts",
                             date: a.date || "Recently",
                             imageUrl: a.imageUrl,
-                            url: a.readMoreUrl || a.url || "#"
+                            url: a.readMoreUrl || a.url || ""
                         }));
                     }
                 }
@@ -94,7 +94,7 @@
                 console.warn("Primary API failed, attempting secondary API...");
             }
 
-            // Secondary source attempt: Reddit Sports JSON API (CORS friendly)
+            // Secondary source attempt: Reddit Sports JSON API
             if (articles.length === 0) {
                 try {
                     const res = await fetch('https://www.reddit.com/r/sports/hot.json?limit=9');
@@ -115,7 +115,7 @@
                 }
             }
 
-            // Final fallback: Guaranteed offline news cards
+            // Final fallback
             if (articles.length === 0) {
                 articles = fallbackNews;
             }
@@ -134,6 +134,11 @@
                 
                 const badgeText = i === 0 ? '🏆 TOP STORY' : '🔥 HOT';
                 const imageUrl = a.imageUrl || 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&auto=format&fit=crop';
+                
+                // Smart link handler: If valid URL exists, use it. Otherwise, search the title on Google.
+                const targetUrl = (a.url && a.url !== '#' && a.url.startsWith('http')) 
+                    ? a.url 
+                    : `https://www.google.com/search?q=${encodeURIComponent(a.title)}`;
 
                 card.innerHTML = `
                     <div class="relative h-48 bg-gray-200">
@@ -153,7 +158,7 @@
                         <p class="text-sm text-gray-600 flex-grow mb-6 leading-relaxed">
                             ${a.description || 'No detailed description available.'}
                         </p>
-                        <a href="${a.url}" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-blue-600 text-white rounded-xl font-semibold text-center hover:bg-blue-700 transition">
+                        <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-blue-600 text-white rounded-xl font-semibold text-center hover:bg-blue-700 transition">
                             Read Full Story ➔
                         </a>
                     </div>
